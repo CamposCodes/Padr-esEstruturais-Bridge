@@ -82,11 +82,11 @@ Isso evita a explosão combinatória de classes que teríamos se criássemos uma
 - [Autor](#autor)
 
 ## 🧐 Sobre <a name="sobre"></a>
-> **Disciplina:** DCC078 – Aspectos Avançados em Engenharia de Software   
-> **Projeto:** GatewayFlex Pagamentos — implementação do padrão Bridge   
-> **Docente:** Prof. Marco Antônio Pereira Araújo  
-> **Data de entrega:** 07/10/2025   
-> **Aluno:** [Gabriel Campos Lima Alves](#autor)  
+> **Disciplina:** DCC078 – Aspectos Avançados em Engenharia de Software
+> **Projeto:** GatewayFlex Pagamentos — implementação do padrão Bridge
+> **Docente:** Prof. Marco Antônio Pereira Araújo
+> **Data de entrega:** 07/10/2025
+> **Aluno:** [Gabriel Campos Lima Alves](#autor)
 
 ### Padrão Bridge no GatewayFlex
 O projeto GatewayFlex Pagamentos usa o padrão estrutural **Bridge** para separar a abstração (tipos de pagamento) das implementações (gateways de pagamento). Essa separação permite adicionar novos métodos de pagamento e novos provedores (gateways) sem multiplicar classes para cada combinação possível.
@@ -168,9 +168,9 @@ Os testes existentes (em `src/test/java/padroesestruturais/bridge/`) verificam a
 - **Git** - Controle de versão
 
 ## 👨‍💻 Autor <a name="autor"></a>
-**Gabriel Campos Lima Alves**  
-Matrícula: 202176005  
-Email: campos.gabriel@estudante.ufjf.br  
+**Gabriel Campos Lima Alves**
+Matrícula: 202176005
+Email: campos.gabriel@estudante.ufjf.br
 GitHub: [@CamposCodes](https://github.com/CamposCodes)
 
 ---
