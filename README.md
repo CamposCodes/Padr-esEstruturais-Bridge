@@ -37,7 +37,7 @@ O **Bridge** é um padrão estrutural que desacopla uma abstração de sua imple
 O diagrama abaixo representa a arquitetura do projeto, destacando a aplicação do padrão **Bridge** no sistema de gateway de pagamentos:
 
 <p align="center">
-  <img src="./Bridge.png" alt="Diagrama de Classe - Bridge" width="800"/>
+  <img src="./BridgeDesignPattern.png" alt="Diagrama de Classe - Bridge" width="800"/>
 </p>
 
 ## 🚀 Funcionalidades <a name="funcionalidades"></a>
