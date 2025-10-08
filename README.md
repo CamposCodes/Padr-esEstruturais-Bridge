@@ -26,7 +26,45 @@
 > **Data de entrega:** 07/10/2025
 > **Aluno:** [Gabriel Campos Lima Alves](#autor)
 
-### Padrão Abstract Factory
+### # PadroesEstruturais-Bridge
+
+Este projeto demonstra a implementação do padrão de projeto estrutural **Bridge** em Java.
+
+## Padrão Bridge
+
+O padrão Bridge é um padrão estrutural que separa uma abstração de sua implementação, permitindo que ambas variem independentemente. Ele é útil quando você tem múltiplas dimensões de variação em um sistema.
+
+## Estrutura do Projeto
+
+### Implementadores (Implementation)
+- **GatewayPagamento**: Interface que define o contrato para os gateways de pagamento
+  - **MercadoPago**: Implementação com taxa de 4,99%
+  - **PagSeguro**: Implementação com taxa de 4,40%
+  - **Stripe**: Implementação com taxa de 2,99%
+  - **Cielo**: Implementação com taxa de 3,50%
+
+### Abstrações (Abstraction)
+- **TipoPagamento**: Classe abstrata que mantém uma referência para um GatewayPagamento
+  - **CartaoCredito**: Calcula valor com parcelas e taxa do gateway
+  - **Pix**: Calcula valor com taxa do gateway
+  - **TransferenciaBancaria**: Calcula valor com taxa do gateway
+  - **Boleto**: Retorna valor base sem taxa
+
+## Como Funciona
+
+O padrão Bridge permite combinar qualquer tipo de pagamento com qualquer gateway de pagamento de forma flexível. Por exemplo:
+- Pagamento via Pix usando MercadoPago
+- Pagamento via Cartão de Crédito usando Stripe
+- Pagamento via Transferência usando Cielo
+
+Isso evita a explosão combinatória de classes que teríamos se criássemos uma classe para cada combinação possível.
+
+## Execução
+
+Execute os testes unitários para verificar o funcionamento:
+```bash
+mvn test
+```
 Implementação do padrão **Abstract Factory** para criação de famílias de produtos relacionados no contexto automotivo.
 O **Abstract Factory** é um padrão criacional que fornece uma interface para criar famílias de objetos relacionados sem especificar suas classes concretas, demonstrando:
 - Criação de famílias consistentes de produtos (Certificado e Manual)
