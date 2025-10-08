@@ -59,39 +59,107 @@ O padrão Bridge permite combinar qualquer tipo de pagamento com qualquer gatewa
 
 Isso evita a explosão combinatória de classes que teríamos se criássemos uma classe para cada combinação possível.
 
-## Execução
-
-Execute os testes unitários para verificar o funcionamento:
-```bash
-mvn test
-```
-Implementação do padrão **Abstract Factory** para criação de famílias de produtos relacionados no contexto automotivo.
-O **Abstract Factory** é um padrão criacional que fornece uma interface para criar famílias de objetos relacionados sem especificar suas classes concretas, demonstrando:
-- Criação de famílias consistentes de produtos (Certificado e Manual)
-- Isolamento das classes concretas do cliente
-- Facilita troca entre famílias de produtos (Nacional/Importado)
-
-## 📐 Diagrama de Classe <a name="diagrama"></a>
-O diagrama abaixo representa a arquitetura do projeto, destacando a aplicação do padrão **Abstract Factory** no sistema de documentação automotiva:
+```md
+# GatewayFlex Pagamentos — Padrão Estrutural Bridge
 
 <p align="center">
-  <img src="./AbstractFactory.png" alt="Diagrama de Classe - Abstract Factory" width="800"/>
+  <a href="https://www.ufjf.br/" rel="noopener">
+    <img width=261 height=148 src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Logo_da_UFJF.png/640px-Logo_da_UFJF.png" alt="Logo UFJF">
+  </a>
 </p>
 
-## 🚀 Funcionalidades <a name="funcionalidades"></a>
-### Sistema de Documentação Automotiva Implementado
-- **FabricaAbstrata**: Interface para criar famílias de documentos
-- **FabricaNacional/FabricaImportado**: Fábricas concretas especializadas
-- **Certificado/Manual**: Interfaces de produtos abstratos
-- **Veiculo**: Cliente que utiliza as fábricas para obter documentos
+<h3 align="center">DCC078-2025.3-A — Aspectos Avançados em Engenharia de Software (UFJF/ICE)</h3>
 
-### Recursos
-- ✅ Famílias consistentes de produtos (Nacional/Importado)
-- ✅ Acoplamento fraco entre cliente e produtos concretos
-- ✅ Facilidade para adicionar novas famílias de veículos
-- ✅ Garantia de compatibilidade entre produtos da mesma família
-- ✅ Inversão de dependência no cliente
-- ✅ Extensibilidade para novos tipos de documentação
+---
+
+## 📝 Sumário
+- [Sobre](#sobre)
+- [Diagrama Nível de Projeto](#diagrama)
+- [Funcionalidades](#funcionalidades)
+- [Tecnologias](#tecnologias)
+- [Exemplo de Uso](#exemplo)
+- [Como Executar e Testes](#testes)
+- [Autor](#autor)
+
+## 🧐 Sobre <a name="sobre"></a>
+> **Disciplina:** DCC078 – Aspectos Avançados em Engenharia de Software   
+> **Projeto:** GatewayFlex Pagamentos — implementação do padrão Bridge   
+> **Docente:** Prof. Marco Antônio Pereira Araújo  
+> **Data de entrega:** 07/10/2025   
+> **Aluno:** [Gabriel Campos Lima Alves](#autor)  
+
+### Padrão Bridge no GatewayFlex
+O projeto GatewayFlex Pagamentos usa o padrão estrutural **Bridge** para separar a abstração (tipos de pagamento) das implementações (gateways de pagamento). Essa separação permite adicionar novos métodos de pagamento e novos provedores (gateways) sem multiplicar classes para cada combinação possível.
+
+O foco é demonstrar como arquiteturas reais (e-commerces, fintechs, plataformas SaaS) podem ganhar flexibilidade, reduzir acoplamento e facilitar manutenção ao aplicar Bridge.
+
+## 📐 Diagrama de Classe <a name="diagrama"></a>
+O diagrama abaixo representa o nível de projeto e mostra a relação entre a hierarquia de abstração (Tipos de Pagamento) e a hierarquia de implementação (Gateways):
+
+<p align="center">
+  <img src="./AbstractFactory.png" alt="Diagrama de Classe - Bridge (exemplo)" width="800"/>
+</p>
+
+> Observação: o diagrama é ilustrativo do padrão aplicado; você pode substituir a imagem por um diagrama específico `Bridge.png` se preferir.
+
+## 🚀 Funcionalidades <a name="funcionalidades"></a>
+- Abstração clara entre o que é feito (tipo de pagamento) e como é feito (gateway)
+- Permite combinar qualquer `TipoPagamento` com qualquer `GatewayPagamento` sem criar classes para cada combinação
+- Fácil adição de novos gateways (ex.: Adyen, PayPal) ou novos métodos de pagamento (ex.: pagamento recorrente)
+- Testes unitários cobrindo comportamento da abstração independente das implementações
+
+### Componentes principais
+- `GatewayPagamento` (interface) — contrato para integrações de gateway (ex.: `MercadoPago`, `PagSeguro`, `Stripe`, `Cielo`)
+- `TipoPagamento` (abstração) — referencia um `GatewayPagamento` e define operações comuns (ex.: calcular valor final, aplicar taxa)
+- Implementações concretas de `TipoPagamento`: `CartaoCredito`, `Pix`, `TransferenciaBancaria`, `Boleto`
+
+## 📊 Exemplo de Uso <a name="exemplo"></a>
+Exemplo mínimo de como combinar uma abstração com uma implementação:
+
+```java
+// cria o gateway concreto
+GatewayPagamento stripe = new Stripe();
+
+// cria a abstração de pagamento e injeta o gateway
+TipoPagamento cartao = new CartaoCredito(stripe);
+
+double valorBase = 100.0;
+double valorPago = cartao.calcularValorFinal(valorBase);
+System.out.println("Valor final (cartão via Stripe): " + valorPago);
+
+// trocar o gateway em tempo de execução
+GatewayPagamento mercadoPago = new MercadoPago();
+cartao.setGateway(mercadoPago);
+System.out.println("Valor final (cartão via MercadoPago): " + cartao.calcularValorFinal(valorBase));
+```
+
+Esse exemplo mostra a troca de implementação sem alterar a hierarquia de `TipoPagamento`.
+
+## 🧪 Como Executar e Testes <a name="testes"></a>
+### Pré-requisitos
+- Java 11 ou superior
+- Maven 3.6+
+
+### Comandos úteis
+```bash
+# Na raiz do projeto
+cd "c:/Users/gcamp/Videos/ASPECTOS-AVANÇADOS-ENG-SFTW/PadroesEstruturais-Bridge"
+
+# Compilar
+mvn clean compile
+
+# Executar testes unitários (recomendado)
+mvn test
+
+# Empacotar
+mvn package
+```
+
+Os testes existentes (em `src/test/java/padroesestruturais/bridge/`) verificam as implementações de `TipoPagamento` e a interação com diferentes `GatewayPagamento`.
+
+## 🛠️ Observações práticas
+- Para adicionar um novo gateway: implemente `GatewayPagamento` e foque nas chamadas de API/simulação e nas taxas aplicáveis.
+- Para adicionar um novo tipo de pagamento: estenda `TipoPagamento` e reutilize o mesmo `GatewayPagamento` existente.
 
 ##  Tecnologias <a name="tecnologias"></a>
 - **Java 11+**
@@ -99,89 +167,15 @@ O diagrama abaixo representa a arquitetura do projeto, destacando a aplicação 
 - **Maven** - Gerenciamento de dependências
 - **Git** - Controle de versão
 
-
-## 📊 Exemplo de Uso <a name="exemplo"></a>
-```java
-// Criando veículo nacional
-FabricaAbstrata fabricaNacional = new FabricaNacional();
-Veiculo veiculoNacional = new Veiculo(fabricaNacional);
-
-System.out.println(veiculoNacional.emitirCertificado());
-// Output: "Certificado de Veículo Nacional"
-
-System.out.println(veiculoNacional.emitirManual());
-// Output: "Manual de Veículo Nacional"
-
-// Criando veículo importado
-FabricaAbstrata fabricaImportado = new FabricaImportado();
-Veiculo veiculoImportado = new Veiculo(fabricaImportado);
-
-System.out.println(veiculoImportado.emitirCertificado());
-// Output: "Certificado de Veículo Importado"
-
-System.out.println(veiculoImportado.emitirManual());
-// Output: "Manual de Veículo Importado"
-
-// Facilidade para trocar famílias
-public void processarVeiculo(FabricaAbstrata fabrica) {
-    Veiculo veiculo = new Veiculo(fabrica);
-    // Produtos sempre serão consistentes com a fábrica escolhida
-}
-```
-
-## 🧪 Como Executar e Testes <a name="testes"></a>
-### Cobertura de Testes
-- ✅ **Testes de Certificados**: Validam emissão para veículos nacionais e importados
-- ✅ **Testes de Manuais**: Verificam geração de manuais para ambas as famílias
-- ✅ **Testes do Padrão**: Confirmam comportamento das fábricas abstratas
-- ✅ **Testes de Integração**: Validam consistência entre produtos da mesma família
-
-### Pré-requisitos
-- Java 11 ou superior
-- Maven 3.6+
-
-### Comandos
-```bash
-# Compilar o projeto
-mvn clean compile
-
-# Executar testes
-mvn test
-
-# Executar o programa principal
-mvn exec:java -Dexec.mainClass="padroescriacao.abstractfactory.Main"
-
-# Empacotar
-mvn package
-```
-
 ## 👨‍💻 Autor <a name="autor"></a>
-**Gabriel Campos Lima Alves**
-Matrícula: 202176005
-Email: campos.gabriel@estudante.ufjf.br
+**Gabriel Campos Lima Alves**  
+Matrícula: 202176005  
+Email: campos.gabriel@estudante.ufjf.br  
 GitHub: [@CamposCodes](https://github.com/CamposCodes)
 
 ---
 
-## 🏗️ Estrutura do Projeto
-```
-src/
-├── main/java/padroescriacao/abstractfactory/
-│   ├── Certificado.java                 # Interface produto abstrato
-│   ├── Manual.java                      # Interface produto abstrato
-│   ├── FabricaAbstrata.java            # Interface fábrica abstrata
-│   ├── CertificadoNacional.java        # Produto concreto nacional
-│   ├── ManualNacional.java             # Produto concreto nacional
-│   ├── CertificadoImportado.java       # Produto concreto importado
-│   ├── ManualImportado.java            # Produto concreto importado
-│   ├── FabricaNacional.java            # Fábrica concreta nacional
-│   ├── FabricaImportado.java           # Fábrica concreta importada
-│   ├── Veiculo.java                    # Cliente que utiliza as fábricas
-│   └── Main.java                       # Demonstração do padrão
-└── test/java/padroescriacao/abstractfactory/
-    └── VeiculoTest.java                # Testes unitários JUnit 5
-```
-
----
-
 *Projeto de uso acadêmico exclusivo para a disciplina DCC078 - UFJF*
+
+```
+└── test/java/padroescriacao/abstractfactory/
